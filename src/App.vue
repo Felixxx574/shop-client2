@@ -1,38 +1,17 @@
 <template>
   <div id="app">
-    <div id="nav">
-<!--      //router-link相当于以前的a标签, router-link不同于a标签的跳转, 而是渲染当前路径对应的路由, 由路由来决定渲染哪些组件-->
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-      <el-button @click="toHome()">Home</el-button>
-      <el-button @click="toAbout()">About</el-button>
-      <el-button @click="toGoods()">Goods</el-button>
-    </div>
-    <router-view/>
+    <el-row>
+      <el-col :span="5"><div class="none"></div></el-col>
+      <el-col :span="14">
+        <router-view/>
+      </el-col>
+      <el-col :span="5"><div class="none"></div></el-col>
+    </el-row>
   </div>
 </template>
 <script>
 export default {
-  name: 'Home',
-  components: {
-
-  },
-  data() {
-    return {
-
-    }
-  },
-  methods: {
-    toHome() {
-      this.$router.push({path:'/'})
-    },
-    toAbout() {
-      this.$router.push({path:'/about'})
-    },
-    toGoods() {
-      this.$router.push({path:'/goods/001'})
-    },
-  }
+  name: 'Home'
 }
 </script>
 
@@ -42,5 +21,23 @@ export default {
 }
 .none{
   min-height: 5px;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.center{
+  text-align: center;
+}
+.top10{
+  margin-top: 10px;
+}
+.top30{
+  margin-top: 30px;
+}
+.top50{
+  margin-top: 50px;
 }
 </style>

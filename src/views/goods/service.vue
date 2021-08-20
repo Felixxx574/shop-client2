@@ -1,5 +1,6 @@
 <template>
   <div id="goodsService">
+    <span>{{id}}</span>
     <h2>goodsService</h2>
   </div>
 </template>
@@ -8,6 +9,7 @@
 export default {
   name: "goodsService",
   components: {},
+  props: ['id'],
   data() {
     return {
 

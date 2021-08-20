@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 const originalPush = VueRouter.prototype.push
 
@@ -13,16 +12,12 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    redirect: '/index'
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About')
+    path: '/index',
+    name: 'index',
+    component: () => import(/* webpackChunkName: "about" */ '../pages/index'),
   },
   {
     path: '/goods/:id',
@@ -34,28 +29,36 @@ const routes = [
       path: 'detail',
       name: 'detail',
       component: () => import(/* webpackChunkName: "about" */ '../views/goods/detail'),
+      props: true
     },{
       path: 'spec',
       name: 'spec',
       component: () => import(/* webpackChunkName: "about" */ '../views/goods/spec'),
+      props: true
     },{
       path: 'service',
       name: 'service',
       component: () => import(/* webpackChunkName: "about" */ '../views/goods/service'),
+      props: true
     },{
       path: 'comments',
       name: 'comments',
       component: () => import(/* webpackChunkName: "about" */ '../views/goods/comments'),
+      props: true
     }]
   },
-
-
-
 
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  // mode: 'history'
 })
+
+//to: 即将要进入的路由对象
+//from: 正要离开的路由对象
+// router.beforeEach((to, from, next) => {
+//   // ...
+// })
 
 export default router
