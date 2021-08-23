@@ -1,17 +1,20 @@
 <template>
   <div id="app">
     <el-row>
-      <el-col :span="5"><div class="none"></div></el-col>
-      <el-col :span="14">
-        <router-view/>
+      <el-col :span="4"><div class="none"></div></el-col>
+      <el-col :span="16">
+        <layout></layout>
       </el-col>
-      <el-col :span="5"><div class="none"></div></el-col>
+      <el-col :span="4"><div class="none"></div></el-col>
     </el-row>
   </div>
 </template>
 <script>
 export default {
-  name: 'Home'
+  name: 'Home',
+  components: {
+    layout: () => import('@/components/layout')
+  }
 }
 </script>
 
