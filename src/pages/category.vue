@@ -15,99 +15,61 @@
         <el-menu-item index="11">交通</el-menu-item>
         <el-menu-item index="12">理财</el-menu-item>
       </el-menu>
-      <el-row>
-        <el-col :span="11">
-          <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/' }">全部分类</el-breadcrumb-item>
-            <el-breadcrumb-item><a href="/">手机</a></el-breadcrumb-item>
-          </el-breadcrumb>
-        </el-col>
-        <el-col :span="1"><div class="none"></div> </el-col>
-        <el-col :span="12">
-          <span>已选择标签: </span>
-          <el-tag
-              :key="tag"
-              v-for="tag in dynamicTags"
-              closable
-              :disable-transitions="false"
-              @close="handleClose(tag)">
-            {{tag}}
-          </el-tag>
-        </el-col>
+      <el-row style="padding: 10px">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/' }">全部分类</el-breadcrumb-item>
+          <el-breadcrumb-item><a href="/">手机</a></el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-row>
+      <el-row style="padding: 5px">
+        <span>已选择标签: </span>
+        <el-tag
+            :key="tag"
+            v-for="tag in dynamicTags"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)">
+          {{tag}}
+        </el-tag>
       </el-row>
       <div>
-        <el-row>
-          <el-col :span="2" class="tagCategory"><span>品牌:</span></el-col>
+        <el-row v-for="(category,catIndex) in categoryList" :key="catIndex">
+          <el-col :span="2" class="tagCategory"><span>{{ category.name }}</span></el-col>
           <el-col :span="22">
             <el-row>
-              <el-col class="tag" :span="3"><span>小米（MI）</span></el-col>
-              <el-col class="tag" :span="3"><span>荣耀（HONOR）</span></el-col>
-              <el-col class="tag" :span="3"><span>华为（HUAWEI）</span></el-col>
-              <el-col class="tag" :span="3"><span>vivo</span></el-col>
-              <el-col class="tag" :span="3"><span>OPPO</span></el-col>
-              <el-col class="tag" :span="3"><span>黑鲨</span></el-col>
-              <el-col class="tag" :span="3"><span>一加</span></el-col>
-              <el-col class="tag" :span="3"><span>三星（SAMSUNG）</span></el-col>
-            </el-row>
-            <el-row>
-              <el-col class="tag" :span="3"><span>魅族（meizu）</span></el-col>
-              <el-col class="tag" :span="3"><span>Apple</span></el-col>
-              <el-col class="tag" :span="3"><span>真我（realme）</span></el-col>
-              <el-col class="tag" :span="3"><span>摩托罗拉（Motor...</span></el-col>
-              <el-col class="tag" :span="3"><span>中兴（ZTE）</span></el-col>
-              <el-col class="tag" :span="3"><span>联想（lenovo）</span></el-col>
-              <el-col class="tag" :span="3"><span>ROG</span></el-col>
-              <el-col class="tag" :span="3"><span>努比亚（nubia）</span></el-col>
+              <el-col class="tag" :span="3" v-for="(tag,tagIndex) in category.tagList" :key="tagIndex"><span @click="printTag(catIndex,tagIndex)">{{ tag }}</span></el-col>
             </el-row>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="2" class="tagCategory"><span>功能:</span></el-col>
-          <el-col :span="22">
-            <el-row>
-              <el-col class="tag" :span="3"><span>超大字体</span></el-col>
-              <el-col class="tag" :span="3"><span>超大音量</span></el-col>
-              <el-col class="tag" :span="3"><span>SOS功能</span></el-col>
-              <el-col class="tag" :span="3"><span>语音命令</span></el-col>
-              <el-col class="tag" :span="3"><span>语音识别(文字语音互转)</span></el-col>
-              <el-col class="tag" :span="3"><span>远程协助</span></el-col>
-              <el-col class="tag" :span="3"><span>极简桌面模式</span></el-col>
-            </el-row>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="2" class="tagCategory"><span>系统:</span></el-col>
-          <el-col :span="22">
-            <el-row>
-              <el-col class="tag" :span="3"><span>Android</span></el-col>
-              <el-col class="tag" :span="3"><span>EMUI 11.0（基于Android 10）</span></el-col>
-              <el-col class="tag" :span="3"><span>HarmonyOS 2</span></el-col>
-              <el-col class="tag" :span="3"><span>IOS</span></el-col>
-              <el-col class="tag" :span="3"><span>其他OS</span></el-col>
-            </el-row>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="2" class="tagCategory"><span>CPU型号:</span></el-col>
-          <el-col :span="22">
-            <el-row>
-              <el-col class="tag" :span="3"><span>骁龙855 plus</span></el-col>
-              <el-col class="tag" :span="3"><span>麒麟990</span></el-col>
-              <el-col class="tag" :span="3"><span>麒麟990 5G</span></el-col>
-              <el-col class="tag" :span="3"><span>骁龙768</span></el-col>
-              <el-col class="tag" :span="3"><span>GExynos980</span></el-col>
-              <el-col class="tag" :span="3"><span>MTK Helio G85</span></el-col>
-              <el-col class="tag" :span="3"><span>MT6873</span></el-col>
-              <el-col class="tag" :span="3"><span>紫光展锐</span></el-col>
-              <el-col class="tag" :span="3"><span>骁龙865 plus</span></el-col>
-              <el-col class="tag" :span="3"><span>天玑1000 plus</span></el-col>
-            </el-row>
-          </el-col>
-        </el-row>
-
       </div>
 
     </el-card>
+    <div id="indexx">
+      <div>
+        <img src="../assets/1.png">
+        <p>
+          Apple iPhone 11 (A2223) 128GB 白色 移动联通电信4G手机 双卡双待
+        </p>
+      </div>
+      <div>
+        <img src="../assets/2.png">
+        <p>
+          Redmi 9A 5000mAh大电量 1300万AI相机 八核处理器 人脸解锁 4GB+64GB 砂石黑 游戏智能手机 小米 红米
+        </p>
+      </div>
+      <div>
+        <img src="../assets/3.png">
+        <p>
+          Apple iPhone 12 (A2404) 128GB 绿色 支持移动联通电信5G 双卡双待手机
+        </p>
+      </div>
+      <div>
+        <img src="../assets/4.png">
+        <p>
+          荣耀Play5T 22.5W超级快充 5000mAh大电池 6.5英寸护眼屏 全网通8GB+128GB极光蓝
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -118,51 +80,78 @@ export default {
   data() {
     return {
       activeIndex: '',
-      dynamicTags: ['标签一', '标签二', '标签三'],
       inputVisible: false,
       inputValue: '',
       categoryList: [
         {
           name: '品牌',
           tagList: ['小米（MI）','荣耀（HONOR）','华为（HUAWEI）','vivo','OPPO','黑鲨','一加','三星（SAMSUNG）'
-            ,'魅族（meizu）','Apple','真我（realme）','摩托罗拉（Motor...','中兴（ZTE）','联想（lenovo）','ROG','努比亚（nubia）']
+            ,'魅族（meizu）','Apple','真我（realme）','摩托罗拉（Motor...','中兴（ZTE）','联想（lenovo）','ROG','努比亚（nubia）'],
+          checked: undefined
         },
         {
           name: '功能',
-          tagList: ['超大字体','超大音量','SOS功能','语音命令','语音识别(文字语音互转)','远程协助','极简桌面模式']
+          tagList: ['超大字体','超大音量','SOS功能','语音命令','语音识别(文字语音互转)','远程协助','极简桌面模式'],
+          checked: undefined
         },
         {
           name: '系统',
-          tagList: ['Android','EMUI 11.0（基于Android 10）','HarmonyOS 2','IOS','其他OS']
+          tagList: ['Android','EMUI 11.0（基于Android 10）','HarmonyOS 2','IOS','其他OS'],
+          checked: undefined
         },
         {
           name: 'CPU型号',
-          tagList: ['骁龙855 plus','麒麟990','麒麟990 5G','骁龙768','GExynos980','MTK Helio G85','MT6873','紫光展锐','骁龙865 plus','天玑1000 plus']
+          tagList: ['骁龙855 plus','麒麟990','麒麟990 5G','骁龙768','GExynos980','MTK Helio G85','MT6873','紫光展锐','骁龙865 plus','天玑1000 plus'],
+          checked: undefined
         }
       ]
+    }
+  },
+  computed: {
+    dynamicTags() {
+      let dynamicTags = []
+      //注意 this.$router 和 this.$route 是不一样的，$router 是整体的vue-router对象， $route是当前的路由对象
+      let keyword = this.$route.query.keyword
+      if(keyword) dynamicTags.push(keyword)
+      this.categoryList.forEach((item) => {
+        let tag = item.checked
+        //在vue中，判断一个值不为空（空字符串‘’或未定义undefined）不能直接写在比较运算中，我们应该写tag这个字符串本身
+        if(tag) {
+          dynamicTags.push(tag)
+        }
+    })
+    return dynamicTags
+    }
+  },
+  watch: {
+    dynamicTags() {
+      console.log("已发送axios")
     }
   },
   methods: {
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
-
-    showInput() {
-      this.inputVisible = true;
-      this.$nextTick(() => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
+    printTag(catIndex,tagIndex){
+      this.categoryList[catIndex].checked = this.categoryList[catIndex].tagList[tagIndex]
     },
 
-    handleInputConfirm() {
-      let inputValue = this.inputValue;
-      if (inputValue) {
-        this.dynamicTags.push(inputValue);
-      }
-      this.inputVisible = false;
-      this.inputValue = '';
-    }
-  }
+    // showInput() {
+    //   this.inputVisible = true;
+    //   this.$nextTick(() => {
+    //     this.$refs.saveTagInput.$refs.input.focus();
+    //   });
+    // },
+    //
+    // handleInputConfirm() {
+    //   let inputValue = this.inputValue;
+    //   if (inputValue) {
+    //     this.dynamicTags.push(inputValue);
+    //   }
+    //   this.inputVisible = false;
+    //   this.inputValue = '';
+    // }
+    },
   }
 </script>
 
@@ -191,5 +180,25 @@ export default {
   padding: 5px 5px 30px 5px;
   font-size: 0.8em;
   font-weight: bold;
+}
+#indexx>div {
+  float: left;
+  width: 220px;
+  height: 270px;
+  margin: 20px 20px 20px 20px;
+  padding: 8px;
+  /*border: 1px solid #919191;*/
+  transition: all 0.5s;
+}
+#indexx>div>img {
+  width: 200px;
+  height: 200px;
+}
+
+#indexx>div>p {
+  width: 200px;
+  font-size: 15px;
+  text-align: justify;
+  /* text-indent: 2rem; */
 }
 </style>

@@ -25,6 +25,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../pages/category'),
   },
   {
+    path: '/shopCart',
+    name: 'shopCart',
+    component: () => import(/* webpackChunkName: "about" */ '../pages/shopCart'),
+  },
+  {
     path: '/goods/:id',
     name: 'Goods',
     component: () => import(/* webpackChunkName: "about" */ '../views/goods/index'),
