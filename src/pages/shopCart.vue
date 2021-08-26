@@ -108,7 +108,11 @@ export default {
     deleteChecked() {
       this.$confirm('确定删除？')
           .then(() => {
-            this.shopCart.forEach((item) => {
+            //这里使用[...this.shopCart]，而不使用this.shopCart
+            //[...str]为ES6的拓展运算符，可以在每次循环后重置当前正在foreach的数组
+            // ...表示用于取出参数对象中的所有遍历属性，拷贝到当前对象中
+            // 如果使用this.shopCart，每次循环操作的永远是同一个数组
+            [...this.shopCart].forEach((item) => {
               if(item.checked) {
                 this.shopCart.splice(this.shopCart.indexOf(item),1)
               }
