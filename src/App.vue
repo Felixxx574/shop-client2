@@ -43,4 +43,7 @@ export default {
 .top50{
   margin-top: 50px;
 }
+.padding10{
+  padding: 10px;
+}
 </style>

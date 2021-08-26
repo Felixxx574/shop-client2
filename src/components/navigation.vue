@@ -1,7 +1,10 @@
 <template>
   <div id="navigation">
+    <el-col>
+      <img src="../assets/img.png" alt="京东" />
+    </el-col>
     <el-card>
-      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="console.log('select menu')">
+      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="navigate">
         <el-menu-item index="1">首页</el-menu-item>
         <el-menu-item index="2">全部分类</el-menu-item>
         <el-menu-item>
@@ -13,25 +16,44 @@
               style="width: 500px"
               suffix-icon="el-icon-search"
               @blur="search"
+              @keyup.enter.native="search"
           ></el-autocomplete>
         </el-menu-item>
-        <el-menu-item index="3">我的订单</el-menu-item>
-        <el-menu-item index="4" @click="drawer = true">个人中心</el-menu-item>
+        <el-menu-item index="3">我的购物车</el-menu-item>
+        <el-menu-item index="4">我的订单</el-menu-item>
+        <el-menu-item index="5" @click="drawer = true" v-if="isLogin">个人中心</el-menu-item>
+        <el-menu-item index="5" @click="passportDialogVisible = true" v-loading.fullscreen.lock="fullscreenLoading" v-if="!isLogin">登录/注册</el-menu-item>
       </el-menu>
     </el-card>
+<!--    登录注册弹窗-->
+    <el-dialog title="登录或注册" :visible.sync="passportDialogVisible" width="30%">
+      <el-form>
+        <el-form-item label="账号">
+          <el-input v-model="loginForm.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input v-model="loginForm.password"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="login">登录</el-button>
+          <el-button>注册</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+<!--    个人信息弹窗-->
     <el-drawer
         :visible.sync="drawer"
         direction="rtl"
         size="20%"
         :show-close="false">
       <div class="avatar center">
-        <el-avatar shape="square" :size="70" :src="user.avatar"></el-avatar>
+        <el-avatar shape="square" :size="70" :src="userInfo.avatar"></el-avatar>
       </div>
       <div class="username center top50">
-        <span>{{user.username}}</span>
+        <span>{{userInfo.username}}</span>
       </div>
       <div class="main center top50">
-        <el-menu :default-active="userActiveIndex" class="el-menu-vertical-demo" mode="vertical">
+        <el-menu :default-active="userActiveIndex" class="el-menu-vertical-demo" mode="vertical" @select="userDrawerMenu" v-loading.fullscreen.lock="fullscreenLoading">
           <el-menu-item index="1">个人资料</el-menu-item>
           <el-menu-item class="top10" index="2">我的订单</el-menu-item>
           <el-menu-item class="top10" index="3">我的购物车</el-menu-item>
@@ -45,6 +67,8 @@
 </template>
 
 <script>
+import {validatenull} from "../util/validate";
+
 export default {
   name: "navigation",
   components: {},
@@ -53,13 +77,24 @@ export default {
       activeIndex: '1',
       userActiveIndex:"1",
       drawer: false,
-      user: {
-        avatar: "https://video.codeseeding.com/image/default/AE03865608444CB389BA0334CD67F1AC-6-2.jpg",
-        username: "Cara"
-      },
       restaurants: [],
       searchInput: '',
-      timeout:  null
+      timeout:  null,
+      passportDialogVisible: false,
+      loginForm: {
+        username: '',
+        password: '',
+      },
+      fullscreenLoading: false
+    }
+  },
+  computed: {
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
+    //userInfo是一个对象，在登录进行判断的时候无法通过userInfo = null来判断，而是通过userInfo里面的值来进行判断
+    isLogin() {
+      return !validatenull(this.userInfo.username)
     }
   },
   methods: {
@@ -133,7 +168,65 @@ export default {
       console.log(item);
     },
     search() {
-      console.log('正在搜索'+this.searchInput)
+      this.$router.push({path: '/category',query: {keyword: this.searchInput}})
+    },
+    navigate(key) {
+      switch (key) {
+        case "1":
+          this.$router.push({path: '/'})
+              break
+        case "2":
+          this.$router.push({path: '/category'})
+          break
+        case "3":
+          this.$router.push({path: '/shopCart'})
+          break
+        default:
+          console.log("没有这个选项")
+              break
+      }
+    },
+    userDrawerMenu(key) {
+      switch (key) {
+        case "1":
+          break
+        case "2":
+          break
+        case "3":
+          break
+        case "4":
+          break
+        case "5":
+          break
+        case "6":
+          this.logout()
+          break
+        default:
+          console.log("没有这个选项")
+          break
+      }
+    },
+    login() {
+      this.fullscreenLoading = true
+      this.$store.dispatch('login').then(() => {
+        this.fullscreenLoading = false
+        this.$message({
+          message: '登录成功',
+          type: 'success'
+        })
+      })
+      this.passportDialogVisible = false
+    },
+    logout() {
+      this.fullscreenLoading = true
+      this.$store.dispatch("logout").then(() => {
+        this.fullscreenLoading = false
+        this.drawer = false
+        this.$message({
+          message:'已注销',
+          type:'success'
+        })
+      })
     }
   },
   mounted() {
