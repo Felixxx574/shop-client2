@@ -193,6 +193,7 @@ export default {
         case "2":
           break
         case "3":
+          this.$router.push({path: '/shopCart'})
           break
         case "4":
           break
