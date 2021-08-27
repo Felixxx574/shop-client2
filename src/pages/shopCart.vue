@@ -2,7 +2,7 @@
   <div id="shopCart">
     <el-card ref="content">
       <el-row>
-        <div class="fl top10"><span style="font-size: 1.3em; color: #409EFF;">全部商品{{total}}</span></div>
+        <div class="fl top10"><span style="font-size: 1.3em; color: #409EFF;">全部商品 {{shopCart.length}}</span></div>
         <div class="fr">
           <span>配送至：</span>
           <el-select v-model="address" placeholder="请选择配送地址">

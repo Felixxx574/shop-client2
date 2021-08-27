@@ -104,7 +104,7 @@ export default new Vuex.Store({
             password : "123456",
             realName : "林圣浩",
             id: "1147824",
-            avatar: "https://video.codeseeding.com/image/default/AE03865608444CB389BA0334CD67F1AC-6-2.jpg",
+            avatar: "https://img2.baidu.com/it/u=2230969035,3462690675&fm=26&fmt=auto&gp=0.jpg",
             address: ["广东省佛山市南海区M78星云","拉萨大家奥克兰京东卡就得啦时间","肇庆学院翰墨池"],
             access_token: "kjandkawdlawkdbawnodawdlkawldkmawlkdmalwmdawdlal",
             refresh_token: "kjandkawdlawkdbawnodawdlkawldkmawlkdmalwmdawdlal"
